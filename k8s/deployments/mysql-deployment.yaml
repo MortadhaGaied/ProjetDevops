@@ -18,7 +18,10 @@ spec:
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: password
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
             - name: MYSQL_DATABASE
               value: achatdb
           ports:
@@ -27,13 +30,7 @@ spec:
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-spec:
-  ports:
-    - port: 3306
-  selector:
-    app: mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-persistent-storage

@@ -1,0 +1,7 @@
+prometheus:
+  prometheusSpec:
+    additionalScrapeConfigs:
+      - job_name: 'spring-boot-app'
+        metrics_path: '/SpringMVC/actuator/prometheus'
+        static_configs:
+          - targets: ['spring-boot-app-service:8089']

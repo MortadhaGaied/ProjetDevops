@@ -1,0 +1,24 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: spring-boot-app-scaledobject
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: spring-boot-app
+  minReplicaCount: 3
+  maxReplicaCount: 10
+  triggers:
+    - type: cron
+      metadata:
+        timezone: "UTC"
+        start: "0 0 22-28 11 3"
+        end: "0 0 23-31 11 7"
+        desiredReplicas: "10"
+    - type: cron
+      metadata:
+        timezone: "UTC"
+        start: "0 0 23-31 11 7"
+        end: "0 0 22-28 11 3"
+        desiredReplicas: "3"
